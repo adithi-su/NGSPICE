@@ -1,0 +1,19 @@
+* rc simulation
+
+*rc time constant = 1ns
+r0 in out 1
+c0 out 0 1n
+
+* pulse period = 0.2 times rc time constant
+Vin in 0 dc 2.5 pulse(0 1 1n 0.0001n 0.0001n 0.2n 0.4n) 
+
+.op
+
+.control
+tran 0.01ns 5ns
+setplot tran1
+plot -vin#branch
+plot in out in-out
+.endc
+
+.end

@@ -1,0 +1,27 @@
+* inverter with enhancement NMOS load; load width being changed.
+
+.include ./t14y_tsmc_025_level3.txt
+
+mnd out in 0 0 cmosn w=10u l=1u
+mpl out 0 dd dd cmosp w=10u l=1u
+
+
+Vdd dd 0 5
+
+Vin in 0 dc 2.5 pulse(0 5 0.01n 0.05n 0.05n 10n 20n) 
+
+* computing the response for various load resistance values
+.control             
+    foreach wid 0.5u 5u 50u
+        alter mpl w=$wid
+        tran 0.1ns 40n
+        dc vin 0 5 0.1
+    end
+.endc
+
+.control
+        plot tran1.in tran1.out tran2.out tran3.out
+        plot dc1.out  dc2.out dc3.out vs in
+.endc
+.end
+ 

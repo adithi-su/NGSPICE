@@ -1,0 +1,38 @@
+* inverter with discrete resistor load; load resistance being changed.
+
+* include the model files
+.include ./t14y_tsmc_025_level3.txt
+
+
+m0 out in 0 0 cmosn w=6.4u l=1.8u ad=6.84p pd=10.8u as=6.84p ps=10.8u
+r0 vdd out 1k
+
+* supply voltages
+Vdd Vdd 0 dc 5
+
+* input voltage source:
+Vin in 0 dc 2.5 pulse(0 5 1n 0.1n 0.1n 2n 4n) 
+
+* analysis request
+.tran 0.1ns 4n
+
+* computing the response for various widths
+.control
+foreach res 100 1k 100k 
+alter r0 = $res
+run
+end
+.endc
+
+* plotting the output for various widths
+.control
+foreach iter 1 2 3
+setplot tran$iter
+plot in out
+plot out vs in
+plot -vdd#branch
+end
+.endc
+
+.end
+ 

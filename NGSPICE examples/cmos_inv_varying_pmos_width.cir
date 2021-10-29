@@ -1,0 +1,22 @@
+* CMOS inverter characteristics
+
+* include the model files
+.include ./t14y_tsmc_025_level3.txt
+
+mn out in 0 0 cmosn l=1u w=1u
+mp out in dd dd cmosp l=1u w=2.5u
+
+vdd dd 0 5
+vin in 0 5
+
+.control
+     foreach pwid 1u 3u 5u
+        alter mp w=$pwid
+        dc vin 0 5 0.1
+        end
+.endc
+.control
+plot dc1.out dc2.out dc3.out
+.endc
+
+.end

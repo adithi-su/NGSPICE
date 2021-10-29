@@ -1,0 +1,48 @@
+* nmos charecteristics varying dimensions working
+* with results written to output.txt
+* w/l ratio is maintained; currents should have been the same for all 3 trials
+* but are not so.
+
+* device details like model etc.
+* include the model files
+.include ./t14y_tsmc_025_level3.txt
+
+* spice netlist
+m1 drain gate 0 0 cmosn l=3u w=10u
+
+
+* excitation sources (supply voltages, stimulus etc)
+vdd drain 0 dc 5
+vgg gate 0 dc 5
+
+
+* desired responses
+.dc vdd 0 5 0.1 vgg 0 5 1
+*.dc vgg 0 5 0.1 vdd 0 5 1
+
+
+* computing the response for various widths
+.control
+foreach dim 25e-9 250e-9 2500e-9
+* can use any one of the 2 lines below. Both of them give the same result
+*alter @m1[w] = $dim
+alter m1 w = $dim
+*alter m1 l = $dim
+run
+end
+.endc
+
+* plotting the output for various widths
+.control
+foreach iter 1 2 3
+*foreach iter 1 2 3 4 5 6  
+setplot dc$iter
+plot -vdd#branch
+end 
+.endc
+
+.control
+set filetype=ascii
+write output.txt 
+.endc
+.end

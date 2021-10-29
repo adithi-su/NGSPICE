@@ -1,0 +1,16 @@
+* rc simulation
+
+r0 in out 1
+c0 out 0 1m
+vin in 0 sin(0 1 10)
+
+.op
+
+.control
+tran 1us 1000ms
+setplot tran1
+plot -vin#branch
+plot in out out in-out
+.endc
+
+.end
