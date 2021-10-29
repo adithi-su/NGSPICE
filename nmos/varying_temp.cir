@@ -1,0 +1,25 @@
+.include ./t14y_tsmc_025_level3.txt
+m0 out in Vss 0 cmosn TEMP=27
+
+*sources 					
+Vgnd Vss 0 dc 0
+vdd out 0 dc 5
+
+*input_source
+Vin in 0 dc 5
+.dc Vin 0 5 .1
+
+.control 
+foreach t1 27 50 100
+alter m0 TEMP=$t1
+run
+end
+.endc
+
+.control 
+foreach iter 1 2 3
+setplot dc$iter
+end
+plot dc1.vdd#branch*-1 dc2.vdd#branch*-1 dc3.vdd#branch*-1
+.endc
+.end
