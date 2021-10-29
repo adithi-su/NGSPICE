@@ -1,0 +1,27 @@
+.include /home/adithi/vlsi_lab/Part1/level1.txt
+.model cmosn nmos LEVEL=1 VTO=.03
+m0 out in Vss 0 cmosn
+
+*sources
+Vgnd Vss 0 dc 0
+vdd out 0 dc 5
+
+*input_source
+Vin in 0 dc 5
+.dc Vin 0 5 .1
+
+.control 
+foreach val 0.5 1 2
+altermod m0 VTO = $val
+run
+end
+.endc
+
+
+.control 
+foreach iter 1 2 3
+setplot dc$iter
+end
+plot dc1.vdd#branch*-1 dc2.vdd#branch*-1 dc3.vdd#branch*-1
+.endc
+.end
