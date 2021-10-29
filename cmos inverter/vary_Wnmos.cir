@@ -17,7 +17,7 @@ run
 end
 .endc
 
-* plot for various w of load
+* plot for various w of driver
 .control
 foreach iter 1 2 3
 setplot dc$iter
