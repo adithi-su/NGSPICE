@@ -1,0 +1,26 @@
+.include ./t14y_tsmc_025_level3.txt
+
+*netlist
+m1 vdd in 0 0 cmosn l=3u w=0.5u
+
+*power sources
+v_dd vdd 0 3.3
+v_in in 0 3.3
+
+.dc v_dd 0 3.3 0.1 v_in 0 3.3 1 
+
+*computing the response for various lengths
+.control 
+foreach len 125e-9 500e-9 2500e-9
+alter m1 l=$len
+run
+end
+.endc
+
+*plotting the output for various lengths
+.control 
+foreach iter 1 2 3
+setplot dc$iter
+plot -v_dd#branch
+end
+.endc
