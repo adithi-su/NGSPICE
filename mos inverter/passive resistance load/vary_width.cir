@@ -1,0 +1,28 @@
+.include ./t14y_tsmc_025_level3.txt
+m0 out in 0 0 cmosn w=6.4u l=1.8u ad=6.84p pd=10.8u as=6.84p ps=10.8u
+r0 vdd out 1k
+
+Vdd Vdd 0 dc 5
+Vin in 0 dc 2.5 pulse(0 5 0.01n 0.05n 0.05n 10n 20n) 
+.dc Vin 0 5 0.1
+
+* computing the response for various widths
+.control
+foreach wid 125e-9 500e-9 2500e-9
+alter m0 w=$wid
+tran 0.1ns 2n
+run
+end
+.endc
+
+* plotting the output for various widths
+.control
+foreach iter 1 2 3
+setplot dc$iter
+setplot tran$iter
+end
+plot dc1.out dc2.out dc3.out vs in
+plot tran1.Vdd#branch*vdd*-1 tran2.Vdd#branch*vdd*-1 tran3.Vdd#branch*vdd*-1
+plot tran1.in tran1.out tran2.out tran3.out
+.endc
+.end
