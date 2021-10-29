@@ -1,0 +1,27 @@
+* KP - transconductance coefficient
+* VTO - Zero bias threshold voltage
+* LAMBDA - Channel Length Modulation
+* GAMMA - Body effect parameter
+* PHI - Surface potential
+* RD - Drain ohmic resistance
+* RS - Source ohmic resistance
+
+
+.MODEL CMOSN NMOS (                                 
++ LEVEL  = 1                 
++ VTO    = 0.3    
++ KP = 20u
++ LAMBDA = 0    
++ GAMMA = 0
++ PHI = 0.6
++ RD = 0
++ RS = 0    
++       )                           
+
+.MODEL CMOSP PMOS ( 
++ LEVEL  = 1                 
++ VTO    = -0.3        
++ KP = 20u
++ LAMBDA = 0        
++               )                           
+                                                                          
