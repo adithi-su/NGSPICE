@@ -1,0 +1,36 @@
+.include ./t14y_tsmc_025_level3.txt
+  
+* NMOS - Driver, PMOS - Load
+m0 out in vdd vdd cmosp l=1u w=.6u
+m1 out in 0 0 cmosn l=1u w=.2u 
+
+v_dd vdd 0 dc 5
+v_in in 0 dc 5 pulse(5 0 .01m .2m .2m .5m 1m)
+.dc v_in 0 5 .01
+
+*varying L of nmos
+.control
+foreach len 0.5u 2u 10u
+alter m1 l=$len
+tran .001m 1m
+run
+end
+.endc
+
+* plot for various L of driver
+.control
+foreach iter 1 2 3
+setplot dc$iter
+setplot tran$iter
+end
+.endc
+
+* case-1 dc analysis for transfer function varying with L of nmos
+* case-2 tran analysis to observe the effect on rise time
+* case-3 for power variation
+.control
+plot tran1.out tran2.out tran3.out
+plot dc1.out dc2.out dc3.out
+plot tran1.v_dd#branch*vdd*-1 tran2.v_dd#branch*vdd*-1 tran3.v_dd#branch*vdd*-1
+.endc
+.end
