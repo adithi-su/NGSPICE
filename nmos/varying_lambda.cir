@@ -1,0 +1,24 @@
+.include /home/adithi/vlsi_lab/Part1/level1.txt
+.model cmosn nmos LEVEL=1 VTO=.03
+m1 vdd in 0 0 cmosn
+
+*sources
+v_dd vdd 0 3.3
+v_in in 0 3.3
+
+.dc v_dd 0 3.3 0.1 v_in 0 3.3 1 
+
+.control 
+foreach ld .01 .05 .09
+altermod m1 LAMBDA = $ld
+run
+end
+.endc
+
+.control 
+foreach iter 1 2 3
+setplot dc$iter
+plot -v_dd#branch
+end
+.endc
+.end 
