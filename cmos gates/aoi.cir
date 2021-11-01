@@ -1,0 +1,30 @@
+.include ./t14y_tsmc_025_level3.txt
+
+* F = (A.B + C.D)' AOI 
+
+mna F A x 0 cmosn L=1u W=6u
+mnb x B 0 0 cmosn L=1u W=6u
+mnc F C y 0 cmosn L=1u W=6u
+mnd y D 0 0 cmosn L=1u W=6u
+
+mpa z A vdd vdd cmosp L=1u W=12u
+mpb z B vdd vdd cmosp L=1u W=12u
+mpc F C int3 vdd cmosp L=1u W=12u
+mpd F D int3 vdd cmosp L=1u W=12u
+
+v_dd vdd 0 3.3
+v_a A 0 PULSE(0 3.3 0 0 0 2ns 4ns)
+v_b B 0 PULSE(0 3.3 0 0 0 4ns 8ns)
+v_c C 0 PULSE(0 3.3 0 0 0 8ns 16ns)
+v_d D 0 PULSE(0 3.3 0 0 0 16ns 32ns)
+
+.control
+tran 0.1ns 32ns
+run
+end
+plot tran1.A tran1.B tran1.C tran1.D tran1.F
+plot tran1.v_dd#branch*vdd*-1
+.endc
+.end
+
+

@@ -1,0 +1,26 @@
+.include ./t14y_tsmc_025_level3.txt
+
+* out = A XOR B
+
+M1 out B A vdd cmosp L=3u W=6u
+M2 out B x 0 cmosn L=3u W=3u
+M3 out A B vdd cmosp L=3u W=6u 
+M4 B x out 0 cmosn L=3u W=3u 
+M5 x A y vdd cmosp L=3u W=6u
+M6 x A 0 0 cmosn L=3u W=3u
+R0 vdd y 1k
+
+v_dd vdd 0 5
+v_a A 0 PULSE(0 5 0 1ps 1ps 40ns 80ns)
+v_b B 0 PULSE(0 5 0 1ps 1ps 80ns 160ns)
+
+.control
+tran 0.5ns 160ns
+run
+end
+plot tran1.A tran1.B tran1.out
+plot tran1.v_dd#branch*vdd*-1
+.endc
+.end
+
+
